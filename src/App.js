@@ -9,7 +9,7 @@ import { fetchCartData, sendCartData } from './redux/shoppingCart.actions';
 let isInitial = true;
 
 function App() {
-	const { showCart, cartItems, totalQuantity } = useSelector(
+	const { showCart, cartItems, totalQuantity, changed } = useSelector(
 		(state) => state.shoppingCart
 	);
 
@@ -26,9 +26,10 @@ function App() {
 			isInitial = false;
 			return;
 		}
-
-		dispatch(sendCartData({ cartItems, totalQuantity }));
-	}, [cartItems, totalQuantity, dispatch]);
+		if (changed) {
+			dispatch(sendCartData({ cartItems, totalQuantity }));
+		}
+	}, [cartItems, totalQuantity, changed, dispatch]);
 
 	return (
 		<>

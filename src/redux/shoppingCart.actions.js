@@ -1,9 +1,10 @@
 import { shoppingCartActions } from './shoppingCart.reducer';
+import { API } from '../api/config';
 
 export const fetchCartData = () => {
 	return async (dispatch) => {
 		const fetchData = async () => {
-			const response = await fetch('API', {});
+			const response = await fetch(API);
 			if (!response.ok) {
 				throw new Error('Could not fetch cart data!');
 			}
@@ -13,13 +14,19 @@ export const fetchCartData = () => {
 
 		try {
 			const cartData = await fetchData();
-			dispatch(shoppingCartActions.replaceCart(cartData));
+			dispatch(
+				shoppingCartActions.replaceCart({
+					cartItems: cartData.cartItems || [],
+					totalQuantity: cartData.totalQuantity || 0,
+				})
+			);
 		} catch (err) {
+			console.log(err);
 			dispatch(
 				shoppingCartActions.showNotification({
 					status: 'error',
 					title: 'Error',
-					message: 'Sending cart data failed',
+					message: 'Fetching cart data failed',
 				})
 			);
 		}
@@ -36,7 +43,7 @@ export const sendCartData = ({ cartItems, totalQuantity }) => {
 		);
 
 		const sendRequest = async () => {
-			const response = await fetch('API', {
+			const response = await fetch(API, {
 				method: 'PUT',
 				body: JSON.stringify({ cartItems, totalQuantity }),
 			});
