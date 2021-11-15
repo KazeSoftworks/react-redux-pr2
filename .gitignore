@@ -145,6 +145,7 @@ thumb
 sketch
 
 #dont expose the api!
-.api/config.js
+src/api/config.js
 
 # End of https://www.toptal.com/developers/gitignore/api/node,react
+
