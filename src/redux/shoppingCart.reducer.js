@@ -14,6 +14,10 @@ const shoppingCartSlice = createSlice({
 		toggleCart: (state) => {
 			state.showCart = !state.showCart;
 		},
+		replaceCart: (state, action) => {
+			state.cartItems = action.payload.cartItems;
+			state.totalQuantity = action.payload.totalQuantity;
+		},
 		showNotification: (state, action) => {
 			state.notification = {
 				status: action.payload.status,
